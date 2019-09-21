@@ -16,16 +16,20 @@ class Graph {
 private:
 	int numOfNodes;
 	int numOfEdges;
+	bool isChecked;
+	bool isConnected;
 	AdjacentList adjacentList;
 	ConnectedComponents connectedComponents;
-
-	void generateConnectedComponentsDFS();
-	void generateConnectedComponentsDFSrec(Visited &visited, int v, int father);
+	
+	void isConnectedGraphrec (Visited &visited, int v);
+	void generateConnectedComponentsDFS ();
+	void generateConnectedComponentsDFSrec (Visited &visited, int v);
 
 public:
 	Graph ();
 	Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList);
 
+	bool isConnectedGraph ();
 	int getNumOfConnectedComponents ();
 	ConnectedComponents getConnectedComponents ();
 };
