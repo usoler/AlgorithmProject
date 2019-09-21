@@ -8,8 +8,8 @@
 
 using namespace std;
 
-typedef vector<vector<int>> AdjacentList;
-typedef vector<vector<int>> ConnectedComponents;
+typedef vector<vector<int> > AdjacentList;
+typedef vector<vector<int> > ConnectedComponents;
 typedef vector<bool> Visited;
 
 class Graph {

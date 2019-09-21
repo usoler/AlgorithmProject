@@ -7,8 +7,8 @@ Graph::Graph () {
 	this->numOfNodes = 0;
 	this->numOfEdges = 0;
 	this->isChecked = false;
-	this->adjacentList = vector<vector<int>>();
-	this->connectedComponents = vector<vector<int>>();
+	this->adjacentList = vector<vector<int> >();
+	this->connectedComponents = vector<vector<int> >();
 }
 
 Graph::Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList) {
@@ -16,7 +16,7 @@ Graph::Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList) {
 	this->numOfEdges = numOfEdges;
 	this->isChecked = false;
 	this->adjacentList = adjacentList;
-	this->connectedComponents = vector<vector<int>>();
+	this->connectedComponents = vector<vector<int> >();
 }
 
 int Graph::getNumOfConnectedComponents () {
