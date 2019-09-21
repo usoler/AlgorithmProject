@@ -26,11 +26,37 @@ private:
 	void generateConnectedComponentsDFSrec (Visited &visited, int v);
 
 public:
+	/**
+	 * Constructs an empty graph
+	 *
+	 * @return an empty graph
+	 */
 	Graph ();
+
+	/**
+	 * Constructs a filled graph
+	 *
+	 * @param numOfNodes number of nodes in the graph
+	 * @param numOfEdges number of edges in the graph
+	 * @param adjacentList adjacent list of the graph
+	 * 
+	 * @return a filled graph
+	 */
 	Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList);
 
+	/**
+	 * Returns if the graph is connected.
+	 */
 	bool isConnectedGraph ();
+
+	/**
+	 * Returns the number of connected components of the graph.
+	 */
 	int getNumOfConnectedComponents ();
+
+	/**
+	 * Returns the connected components of the graph
+	 */
 	ConnectedComponents getConnectedComponents ();
 };
 #endif
