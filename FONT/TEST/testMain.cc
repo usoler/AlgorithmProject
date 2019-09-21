@@ -6,8 +6,8 @@
 
 using namespace std;
 
-typedef vector<vector<int>> AdjacentList;
-typedef vector<vector<int>> ConnectedComponents;
+typedef vector<vector<int> > AdjacentList;
+typedef vector<vector<int> > ConnectedComponents;
 
 void make_adjacentList1(AdjacentList &);
 void make_adjacentList2(AdjacentList &);
