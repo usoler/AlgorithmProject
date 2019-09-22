@@ -1,7 +1,7 @@
 -- Compilacion mediante 'makefile'
-Des de la carpeta principal del proyecto ejecutar por terminal:
+Desde la carpeta principal del proyecto ejecutar por terminal:
 $ make
 
 -- Ejecucion de los tests:
-Des de la carpeta principal del proyecto ejecutar por terminal:
+Desde la carpeta principal del proyecto ejecutar por terminal:
 $ ./program
