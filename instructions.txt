@@ -1,0 +1,8 @@
+From the main folder run by terminal:
+
+
+-- Compilation by 'makefile'
+$ make
+
+-- Tests Execution
+$ ./program.exe
