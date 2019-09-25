@@ -45,9 +45,24 @@ public:
 	Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList);
 
 	/**
+	 * Returns the number of nodes in the graph.
+	 */
+	int getNumOfNodes ();
+
+	/**
+	 * Returns the number of edges in the graph.
+	 */
+	int getNumOfEdges ();
+
+	/**
 	 * Returns if the graph is connected.
 	 */
 	bool isConnectedGraph ();
+
+	/**
+	 * Returns the adjacent list of the graph.
+	 */
+	AdjacentList getAdjacentList ();
 
 	/**
 	 * Returns the number of connected components of the graph.

@@ -19,19 +19,12 @@ Graph::Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList) {
 	this->connectedComponents = vector<vector<int> >();
 }
 
-int Graph::getNumOfConnectedComponents () {
-	if (this->connectedComponents.empty()) {
-		generateConnectedComponentsDFS();
-	}
-
-	return this->connectedComponents.size();
+int Graph::getNumOfNodes () {
+	return this->numOfNodes;
 }
 
-ConnectedComponents Graph::getConnectedComponents () {
-	if (this->connectedComponents.empty()) {
-		generateConnectedComponentsDFS();
-	}
-	return this->connectedComponents;
+int Graph::getNumOfEdges () {
+	return this->numOfEdges;
 }
 
 bool Graph::isConnectedGraph () {
@@ -51,6 +44,25 @@ bool Graph::isConnectedGraph () {
 	}
 
 	return this->isConnected;
+}
+
+AdjacentList Graph::getAdjacentList() {
+	return this->adjacentList;
+}
+
+int Graph::getNumOfConnectedComponents () {
+	if (this->connectedComponents.empty()) {
+		generateConnectedComponentsDFS();
+	}
+
+	return this->connectedComponents.size();
+}
+
+ConnectedComponents Graph::getConnectedComponents () {
+	if (this->connectedComponents.empty()) {
+		generateConnectedComponentsDFS();
+	}
+	return this->connectedComponents;
 }
 
 void Graph::isConnectedGraphrec (vector<bool> &visited, int v) {

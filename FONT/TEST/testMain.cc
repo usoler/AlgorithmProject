@@ -1,110 +1,156 @@
 /**
  * Created by Luis Oriol Soler Cruz on 21/09/19
+ * Modified by Jose Camilo Romero Limones on 23/09/19
  */
 #include <iostream>
 #include "Graph.h"
+#include "RandomGeometricGraphGenerator.h"
 
 using namespace std;
 
 typedef vector<vector<int> > AdjacentList;
 typedef vector<vector<int> > ConnectedComponents;
 
+void print_menu ();
 void make_adjacentList1(AdjacentList &);
 void make_adjacentList2(AdjacentList &);
 void make_adjacentList3(AdjacentList &);
 void make_adjacentList4(AdjacentList &);
 void make_adjacentList5(AdjacentList &);
+void print_graph (Graph &);
 void print_component (vector<int> &);
 void print_connected_components (ConnectedComponents &);
 
+void verify_Graph_generateConnectedComponentsDFS_whenValidExecution (int, int, AdjacentList &);
+void verify_Graph_isConnectedGraph_whenValidExecution (int, int, AdjacentList &);
+void verify_RandomGeometricGraphGenerator_generateGraph (int, float, Graph &, RandomGeometricGraphGenerator &);
+void run_Graph_tests ();
+void run_RandomGeometricGraphGenerator_tests ();
+
 int main() {
+	print_menu();
+	int option;
+	while (cin >> option) {
+		if (option == 0) {
+			run_Graph_tests();
+			run_RandomGeometricGraphGenerator_tests();
+		} else if (option == 1) {
+			run_Graph_tests();
+		} else if (option == 2) {
+			run_RandomGeometricGraphGenerator_tests();
+		}
+
+		print_menu();
+	}
+}
+
+void print_menu () {
+	cout << "**********************************************" << endl;
+	cout << "*                TEST CONSOLE                *" << endl;
+	cout << "**********************************************" << endl;
+	cout << "* Run All Unit Tests:                press 0 *" << endl;
+	cout << "*                                            *" << endl;
+	cout << "* Run Unit Tests for                         *" << endl;
+	cout << "*   - Graph:                         press 1 *" << endl;
+	cout << "*   - RandomGeometricGraphGenerator: press 2 *" << endl;
+	cout << "**********************************************" << endl;
+}
+
+void run_Graph_tests () {
 	// ------------- TEST 1 -------------
 	// 3 componentes, 0-1-2, 3-4, 5-6-7-8
 	int n = 9;
 	int m = 8;
-	AdjacentList adjacentList1(n, vector<int>());
-	make_adjacentList1(adjacentList1);
+	AdjacentList adjacentList = AdjacentList(n, vector<int>());
+	make_adjacentList1(adjacentList);
 
-	Graph graph1 = Graph(n, m, adjacentList1);
-	cout << "Num of connected components: " << graph1.getNumOfConnectedComponents() << endl;
-	ConnectedComponents connectedComponents = graph1.getConnectedComponents();
-	graph1.getConnectedComponents();
-	graph1.getConnectedComponents();
-	print_connected_components(connectedComponents);
+	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
 
 	// ------------- TEST 2 -------------
 	// 5 componentes, 0, 1-2, 3-4-5-6, 7, 8-9-10-11
 	n = 12;
 	m = 10;
-	AdjacentList adjacentList2(n, vector<int>());
-	make_adjacentList2(adjacentList2);
+	adjacentList = AdjacentList(n, vector<int>());
+	make_adjacentList2(adjacentList);
 
-	Graph graph2(n, m, adjacentList2);
-
-	cout << "Num of connected components: " << graph2.getNumOfConnectedComponents() << endl;
-	connectedComponents = graph2.getConnectedComponents();
-	print_connected_components(connectedComponents);
+	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
 
 	// ------------- TEST 3 -------------
 	// 0-1-2
 	n = 3;
 	m = 3;
-	AdjacentList adjacentList3(n, vector<int>());
-	make_adjacentList3(adjacentList3);
+	adjacentList = AdjacentList(n, vector<int>());
+	make_adjacentList3(adjacentList);
 
-	Graph graph3(n, m, adjacentList3);
-
-	if (graph3.isConnectedGraph()) {
-		cout << "Graph is connected" << endl;
-	} else {
-		cout << "Graph is not connected" << endl;
-	}
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
 
 	// ------------- TEST 4 -------------
 	// 0-1
 	n = 2;
 	m = 1;
-	AdjacentList adjacentList4(n, vector<int>());
-	make_adjacentList4(adjacentList4);
+	adjacentList = AdjacentList(n, vector<int>());
+	make_adjacentList4(adjacentList);
 
-	Graph graph4(n, m, adjacentList4);
-
-	if (graph4.isConnectedGraph()) {
-		cout << "Graph is connected" << endl;
-	} else {
-		cout << "Graph is not connected" << endl;
-	}
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
 
 	// ------------- TEST 5 -------------
 	// 0-1-2-3-4
 	n = 5;
 	m = 4;
-	AdjacentList adjacentList5(n, vector<int>());
-	make_adjacentList5(adjacentList5);
+	adjacentList = AdjacentList(n, vector<int>());
+	make_adjacentList5(adjacentList);
 
-	Graph graph5(n, m, adjacentList5);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+}
 
-	if (graph5.isConnectedGraph()) {
+void run_RandomGeometricGraphGenerator_tests () {
+	// ------------- TEST 8 -------------
+	cout << "START TESTS" << endl;
+	int n = 20;
+	float r = 0.3;
+
+	RandomGeometricGraphGenerator generator = RandomGeometricGraphGenerator();
+	Graph graph;
+	verify_RandomGeometricGraphGenerator_generateGraph(n, r, graph, generator);
+	int m = graph.getNumOfEdges();
+	AdjacentList adjacentList = graph.getAdjacentList();
+	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+
+	cout << "------------------------" << endl;
+
+	// ------------- TEST 9 -------------
+	verify_RandomGeometricGraphGenerator_generateGraph(n, r, graph, generator);
+	m = graph.getNumOfEdges();
+	adjacentList = graph.getAdjacentList();
+	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+
+	cout << "END TESTS" << endl;
+}
+
+void verify_Graph_generateConnectedComponentsDFS_whenValidExecution (int n, int m, AdjacentList &adjacentList) {
+	Graph graph = Graph(n, m, adjacentList);
+	cout << "Num of connected components: " << graph.getNumOfConnectedComponents() << endl;
+	ConnectedComponents connectedComponents = graph.getConnectedComponents();
+	print_connected_components(connectedComponents);
+}
+
+void verify_Graph_isConnectedGraph_whenValidExecution (int n, int m, AdjacentList &adjacentList) {
+	Graph graph(n, m, adjacentList);
+
+	if (graph.isConnectedGraph()) {
 		cout << "Graph is connected" << endl;
 	} else {
 		cout << "Graph is not connected" << endl;
 	}
+}
 
-	// ------------- TEST 6 -------------
-	// 3 componentes, 0-1-2, 3-4, 5-6-7-8
-	if (graph1.isConnectedGraph()) {
-		cout << "Graph is connected" << endl;
-	} else {
-		cout << "Graph is not connected" << endl;
-	}
-
-	// ------------- TEST 7 -------------
-	// 5 componentes, 0, 1-2, 3-4-5-6, 7, 8-9-10-11
-	if (graph2.isConnectedGraph()) {
-		cout << "Graph is connected" << endl;
-	} else {
-		cout << "Graph is not connected" << endl;
-	}
+void verify_RandomGeometricGraphGenerator_generateGraph (int n, float r, Graph &graph, RandomGeometricGraphGenerator &generator) {
+	graph = generator.generateGraph(n, r);
+	print_graph(graph);
 }
 
 void make_adjacentList1 (AdjacentList &adjacentList1) {
@@ -196,6 +242,19 @@ void make_adjacentList5 (AdjacentList &adjacentList5) {
 	adjacentList5[3].push_back(4);
 
 	adjacentList5[4].push_back(3);
+}
+
+void print_graph (Graph &graph) {
+	AdjacentList adjacentList = graph.getAdjacentList();
+	int numOfNodes = adjacentList.size();
+	for (int i = 0; i < numOfNodes; ++i) {
+		cout << "Node #" << i<< ":";
+		int numOfAdjacents = adjacentList[i].size();
+		for (int j = 0; j < numOfAdjacents; ++j) {
+			cout << adjacentList[i][j] << " ";
+		}
+		cout << endl;
+	}
 }
 
 void print_connected_components (ConnectedComponents &connectedComponents) {
