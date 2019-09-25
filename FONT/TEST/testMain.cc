@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Graph.h"
 #include "RandomGeometricGraphGenerator.h"
+#include "RandomBinomialGraphGenerator.h"
 
 using namespace std;
 
@@ -24,8 +25,10 @@ void print_connected_components (ConnectedComponents &);
 void verify_Graph_generateConnectedComponentsDFS_whenValidExecution (int, int, AdjacentList &);
 void verify_Graph_isConnectedGraph_whenValidExecution (int, int, AdjacentList &);
 void verify_RandomGeometricGraphGenerator_generateGraph (int, float, Graph &, RandomGeometricGraphGenerator &);
+void verify_RandomBinomialGraphGenerator_generateGraph (int, float, Graph &, RandomBinomialGraphGenerator &);
 void run_Graph_tests ();
 void run_RandomGeometricGraphGenerator_tests ();
+void run_RandomBinomialGraphGenerator_tests ();
 
 int main() {
 	print_menu();
@@ -34,10 +37,13 @@ int main() {
 		if (option == 0) {
 			run_Graph_tests();
 			run_RandomGeometricGraphGenerator_tests();
+			run_RandomBinomialGraphGenerator_tests();
 		} else if (option == 1) {
 			run_Graph_tests();
 		} else if (option == 2) {
 			run_RandomGeometricGraphGenerator_tests();
+		} else if (option == 3) {
+			run_RandomBinomialGraphGenerator_tests();
 		}
 
 		print_menu();
@@ -53,6 +59,7 @@ void print_menu () {
 	cout << "* Run Unit Tests for                         *" << endl;
 	cout << "*   - Graph:                         press 1 *" << endl;
 	cout << "*   - RandomGeometricGraphGenerator: press 2 *" << endl;
+	cout << "*   - RandomBinomialGraphGenerator:  press 3 *" << endl;
 	cout << "**********************************************" << endl;
 }
 
@@ -131,6 +138,32 @@ void run_RandomGeometricGraphGenerator_tests () {
 	cout << "END TESTS" << endl;
 }
 
+void run_RandomBinomialGraphGenerator_tests () {
+	// ------------- TEST 10 -------------
+	cout << "START TESTS" << endl;
+	int n = 10;
+	float p = 0.2;
+
+	RandomBinomialGraphGenerator generator = RandomBinomialGraphGenerator();
+	Graph graph;
+	verify_RandomBinomialGraphGenerator_generateGraph(n, p, graph, generator);
+	int m = graph.getNumOfEdges();
+	AdjacentList adjacentList = graph.getAdjacentList();
+	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+
+	cout << "------------------------" << endl;
+
+	// ------------- TEST 11 -------------
+	verify_RandomBinomialGraphGenerator_generateGraph(n, p, graph, generator);
+	m = graph.getNumOfEdges();
+	adjacentList = graph.getAdjacentList();
+	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+
+	cout << "END TESTS" << endl;
+}
+
 void verify_Graph_generateConnectedComponentsDFS_whenValidExecution (int n, int m, AdjacentList &adjacentList) {
 	Graph graph = Graph(n, m, adjacentList);
 	cout << "Num of connected components: " << graph.getNumOfConnectedComponents() << endl;
@@ -150,6 +183,11 @@ void verify_Graph_isConnectedGraph_whenValidExecution (int n, int m, AdjacentLis
 
 void verify_RandomGeometricGraphGenerator_generateGraph (int n, float r, Graph &graph, RandomGeometricGraphGenerator &generator) {
 	graph = generator.generateGraph(n, r);
+	print_graph(graph);
+}
+
+void verify_RandomBinomialGraphGenerator_generateGraph (int n, float p, Graph &graph, RandomBinomialGraphGenerator &generator) {
+	graph = generator.generateBinomialGraph(n, p);
 	print_graph(graph);
 }
 

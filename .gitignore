@@ -2,3 +2,8 @@
 Graph.o
 program.exe
 testMain.o
+RandomBinomialGraphGenerator.o
+RandomGeometricGraphGenerator.o
+
+# Visual Studio Code files
+.vscode
