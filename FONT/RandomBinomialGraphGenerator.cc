@@ -8,7 +8,7 @@ RandomBinomialGraphGenerator::RandomBinomialGraphGenerator() {
   srand((unsigned)time(NULL));
 }
 
-Graph RandomBinomialGraphGenerator::generateBinomialGraph(int numOfNodes, float probOfEdge) {
+Graph RandomBinomialGraphGenerator::generateGraph(int numOfNodes, float probOfEdge) {
   AdjacentList adjacentList = vector<vector<int> >(numOfNodes, vector<int>());
   int numOfEdges = 0;
 

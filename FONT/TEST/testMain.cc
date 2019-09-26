@@ -1,6 +1,7 @@
 /**
  * Created by Luis Oriol Soler Cruz on 21/09/19
  * Modified by Jose Camilo Romero Limones on 23/09/19
+ * Modified by Pau Escofet Majoral on 25/09/19
  */
 #include <iostream>
 #include "Graph.h"
@@ -64,6 +65,11 @@ void print_menu () {
 }
 
 void run_Graph_tests () {
+	cout << endl;
+	cout << "******************************" << endl;
+	cout << "Running Graph Tests" << endl;
+	cout << "******************************" << endl;
+	cout << endl;
 	// ------------- TEST 1 -------------
 	// 3 componentes, 0-1-2, 3-4, 5-6-7-8
 	int n = 9;
@@ -110,11 +116,20 @@ void run_Graph_tests () {
 	make_adjacentList5(adjacentList);
 
 	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+	cout << endl;
+	cout << "******************************" << endl;
+	cout << "Graph Tests Finished" << endl;
+	cout << "******************************" << endl;
+	cout << endl;
 }
 
 void run_RandomGeometricGraphGenerator_tests () {
+	cout << endl;
+	cout << "*****************************************" << endl;
+	cout << "Running Random Geometric Graph Tests" << endl;
+	cout << "*****************************************" << endl;
+	cout << endl;
 	// ------------- TEST 8 -------------
-	cout << "START TESTS" << endl;
 	int n = 20;
 	float r = 0.3;
 
@@ -134,15 +149,22 @@ void run_RandomGeometricGraphGenerator_tests () {
 	adjacentList = graph.getAdjacentList();
 	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
 	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	cout << "END TESTS" << endl;
+	cout << endl;
+	cout << "*****************************************" << endl;
+	cout << "Random Geometric Graph Tests Finished" << endl;
+	cout << "*****************************************" << endl;
+	cout << endl;
 }
 
 void run_RandomBinomialGraphGenerator_tests () {
+	cout << endl;
+	cout << "*****************************************" << endl;
+	cout << "Running Random Binomial Graph Tests" << endl;
+	cout << "*****************************************" << endl;
+	cout << endl;
 	// ------------- TEST 10 -------------
-	cout << "START TESTS" << endl;
-	int n = 10;
-	float p = 0.2;
+	int n = 20;
+	float p = 0.3;
 
 	RandomBinomialGraphGenerator generator = RandomBinomialGraphGenerator();
 	Graph graph;
@@ -160,8 +182,11 @@ void run_RandomBinomialGraphGenerator_tests () {
 	adjacentList = graph.getAdjacentList();
 	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
 	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	cout << "END TESTS" << endl;
+	cout << endl;
+	cout << "*****************************************" << endl;
+	cout << "Random Binomial Graph Tests Finished" << endl;
+	cout << "*****************************************" << endl;
+	cout << endl;
 }
 
 void verify_Graph_generateConnectedComponentsDFS_whenValidExecution (int n, int m, AdjacentList &adjacentList) {
@@ -187,7 +212,7 @@ void verify_RandomGeometricGraphGenerator_generateGraph (int n, float r, Graph &
 }
 
 void verify_RandomBinomialGraphGenerator_generateGraph (int n, float p, Graph &graph, RandomBinomialGraphGenerator &generator) {
-	graph = generator.generateBinomialGraph(n, p);
+	graph = generator.generateGraph(n, p);
 	print_graph(graph);
 }
 

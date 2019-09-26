@@ -36,6 +36,6 @@ class RandomBinomialGraphGenerator {
      *
      * @return a random binomial graph.
      */
-    Graph generateBinomialGraph (int numOfNodes, float probOfEdge);
+    Graph generateGraph (int numOfNodes, float probOfEdge);
 };
 #endif
