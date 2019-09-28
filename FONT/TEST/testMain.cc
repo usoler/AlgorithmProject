@@ -1,310 +1,151 @@
 /**
- * Created by Luis Oriol Soler Cruz on 21/09/19
- * Modified by Jose Camilo Romero Limones on 23/09/19
+ * Created by Luis Oriol Soler Cruz on 26/09/19
  */
+#include "ConnectedComponentsExperiment.h"
 #include <iostream>
-#include "Graph.h"
-#include "RandomGeometricGraphGenerator.h"
-#include "RandomBinomialGraphGenerator.h"
+#include <vector>
 
 using namespace std;
 
-typedef vector<vector<int> > AdjacentList;
-typedef vector<vector<int> > ConnectedComponents;
+enum Model { Binomial, Geometric };
 
-void print_menu ();
-void make_adjacentList1(AdjacentList &);
-void make_adjacentList2(AdjacentList &);
-void make_adjacentList3(AdjacentList &);
-void make_adjacentList4(AdjacentList &);
-void make_adjacentList5(AdjacentList &);
-void print_graph (Graph &);
-void print_component (vector<int> &);
-void print_connected_components (ConnectedComponents &);
+void printReadMe ();
+void printMenu ();
+void generateDefaultNumOfNodes (vector<int> &listOfNumOfNodes);
+void generateDefaultNumOfParamValues (vector<double> &listOfNumOfParamValues);
+void runConnectedComponentsExperimentByDefault (Model model);
+void runConnectedComponentsExperiment (Model model);
 
-void verify_Graph_generateConnectedComponentsDFS_whenValidExecution (int, int, AdjacentList &);
-void verify_Graph_isConnectedGraph_whenValidExecution (int, int, AdjacentList &);
-void verify_RandomGeometricGraphGenerator_generateGraph (int, float, Graph &, RandomGeometricGraphGenerator &);
-void verify_RandomBinomialGraphGenerator_generateGraph (int, float, Graph &, RandomBinomialGraphGenerator &);
-void run_Graph_tests ();
-void run_RandomGeometricGraphGenerator_tests ();
-void run_RandomBinomialGraphGenerator_tests ();
+int main () {
+	printReadMe();
+	printMenu();
 
-int main() {
-	print_menu();
 	int option;
-	while (cin >> option) {
+	cout << "Enter the number of experiment:" << endl;
+	while(cin >> option) {
 		if (option == 0) {
-			run_Graph_tests();
-			run_RandomGeometricGraphGenerator_tests();
-			run_RandomBinomialGraphGenerator_tests();
+			break;
 		} else if (option == 1) {
-			run_Graph_tests();
+			cout << "Do you want to run the default experiment? Enter 'yes', otherwise enter 'no'" << endl;
+			string selection;
+			cin >> selection;
+			if (selection == "yes") {
+				runConnectedComponentsExperimentByDefault(Geometric);
+			} else {
+				runConnectedComponentsExperiment(Geometric);
+			}
 		} else if (option == 2) {
-			run_RandomGeometricGraphGenerator_tests();
-		} else if (option == 3) {
-			run_RandomBinomialGraphGenerator_tests();
+			cout << "Do you want to run the default experiment? Enter 'yes', otherwise enter 'no'" << endl;
+			string selection;
+			cin >> selection;
+			if (selection == "yes") {
+				runConnectedComponentsExperimentByDefault(Binomial);
+			} else {
+				runConnectedComponentsExperiment(Binomial);
+			}
 		}
-
-		print_menu();
+		printReadMe();
+		printMenu();
+		cout << "Enter the number of experiment:" << endl;
 	}
+	return 0;
 }
 
-void print_menu () {
-	cout << "**********************************************" << endl;
-	cout << "*                TEST CONSOLE                *" << endl;
-	cout << "**********************************************" << endl;
-	cout << "* Run All Unit Tests:                press 0 *" << endl;
-	cout << "*                                            *" << endl;
-	cout << "* Run Unit Tests for                         *" << endl;
-	cout << "*   - Graph:                         press 1 *" << endl;
-	cout << "*   - RandomGeometricGraphGenerator: press 2 *" << endl;
-	cout << "*   - RandomBinomialGraphGenerator:  press 3 *" << endl;
-	cout << "**********************************************" << endl;
-}
-
-void run_Graph_tests () {
-	// ------------- TEST 1 -------------
-	// 3 componentes, 0-1-2, 3-4, 5-6-7-8
-	int n = 9;
-	int m = 8;
-	AdjacentList adjacentList = AdjacentList(n, vector<int>());
-	make_adjacentList1(adjacentList);
-
-	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	// ------------- TEST 2 -------------
-	// 5 componentes, 0, 1-2, 3-4-5-6, 7, 8-9-10-11
-	n = 12;
-	m = 10;
-	adjacentList = AdjacentList(n, vector<int>());
-	make_adjacentList2(adjacentList);
-
-	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	// ------------- TEST 3 -------------
-	// 0-1-2
-	n = 3;
-	m = 3;
-	adjacentList = AdjacentList(n, vector<int>());
-	make_adjacentList3(adjacentList);
-
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	// ------------- TEST 4 -------------
-	// 0-1
-	n = 2;
-	m = 1;
-	adjacentList = AdjacentList(n, vector<int>());
-	make_adjacentList4(adjacentList);
-
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	// ------------- TEST 5 -------------
-	// 0-1-2-3-4
-	n = 5;
-	m = 4;
-	adjacentList = AdjacentList(n, vector<int>());
-	make_adjacentList5(adjacentList);
-
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-}
-
-void run_RandomGeometricGraphGenerator_tests () {
-	// ------------- TEST 8 -------------
-	cout << "START TESTS" << endl;
-	int n = 20;
-	float r = 0.3;
-
-	RandomGeometricGraphGenerator generator = RandomGeometricGraphGenerator();
-	Graph graph;
-	verify_RandomGeometricGraphGenerator_generateGraph(n, r, graph, generator);
-	int m = graph.getNumOfEdges();
-	AdjacentList adjacentList = graph.getAdjacentList();
-	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
+void printReadMe () {
+	cout << "************************" << endl;
+	cout << "* ALGORITHMICS PROJECT *" << endl;
+	cout << "************************" << endl;
+	cout << endl;
+	cout << "Project title:" << endl;
+	cout << "  - Phase transition and connected components in random graphs" << endl;
+	cout << endl;
+	cout << "Team members:" << endl;
+	cout << "  - José Camilo Romero Limones" << endl;
+	cout << "  - Luis Oriol Soler Cruz" << endl;
+	cout << "  - Pau Escofet Majoral" << endl;
+	cout << "  - Roger González Herrera" << endl;
+	cout << endl;
 	cout << "------------------------" << endl;
-
-	// ------------- TEST 9 -------------
-	verify_RandomGeometricGraphGenerator_generateGraph(n, r, graph, generator);
-	m = graph.getNumOfEdges();
-	adjacentList = graph.getAdjacentList();
-	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	cout << "END TESTS" << endl;
+	cout << endl;
 }
 
-void run_RandomBinomialGraphGenerator_tests () {
-	// ------------- TEST 10 -------------
-	cout << "START TESTS" << endl;
-	int n = 40;
-	float p = 0.02;
-
-	RandomBinomialGraphGenerator generator = RandomBinomialGraphGenerator();
-	Graph graph;
-	verify_RandomBinomialGraphGenerator_generateGraph(n, p, graph, generator);
-	int m = graph.getNumOfEdges();
-	AdjacentList adjacentList = graph.getAdjacentList();
-	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	cout << "------------------------" << endl;
-
-	// ------------- TEST 11 -------------
-	verify_RandomBinomialGraphGenerator_generateGraph(n, p, graph, generator);
-	m = graph.getNumOfEdges();
-	adjacentList = graph.getAdjacentList();
-	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
-	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
-
-	cout << "END TESTS" << endl;
+void printMenu () {
+	cout << "List of experiments:" << endl;
+	cout << "- Experiments of the Expected value of the number of components:" << endl;
+	cout << "    [Enter 1] for Geometric Model" << endl;
+	cout << "    [Enter 2] for Binomial Model" << endl;
+	cout << endl;
+	cout << "[Enter 0] to exit" << endl;
+	cout << endl;
 }
 
-void verify_Graph_generateConnectedComponentsDFS_whenValidExecution (int n, int m, AdjacentList &adjacentList) {
-	Graph graph = Graph(n, m, adjacentList);
-	cout << "Num of connected components: " << graph.getNumOfConnectedComponents() << endl;
-	ConnectedComponents connectedComponents = graph.getConnectedComponents();
-	print_connected_components(connectedComponents);
-}
+void runConnectedComponentsExperimentByDefault (Model model) {
+	vector<int> listOfNumOfNodes;
+	generateDefaultNumOfNodes(listOfNumOfNodes);
+	vector<double> listOfNumOfParamValues;
+	generateDefaultNumOfParamValues(listOfNumOfParamValues);
+	int numOfGraphs = 500;
 
-void verify_Graph_isConnectedGraph_whenValidExecution (int n, int m, AdjacentList &adjacentList) {
-	Graph graph(n, m, adjacentList);
+	ConnectedComponentsExperiment experiment = ConnectedComponentsExperiment();
 
-	if (graph.isConnectedGraph()) {
-		cout << "Graph is connected" << endl;
-	} else {
-		cout << "Graph is not connected" << endl;
+	if (model == Geometric) {
+		experiment.startExperimentGeometric(listOfNumOfNodes, listOfNumOfParamValues, numOfGraphs);
+	} else if (model == Binomial) {
+		experiment.startExperimentBinomial(listOfNumOfNodes, listOfNumOfParamValues, numOfGraphs);
 	}
 }
 
-void verify_RandomGeometricGraphGenerator_generateGraph (int n, float r, Graph &graph, RandomGeometricGraphGenerator &generator) {
-	graph = generator.generateGraph(n, r);
-	print_graph(graph);
-}
+void runConnectedComponentsExperiment (Model model) {	
+	int numOfFunctions;
+	cout << "********** Connected Components Experiment **********" << endl;
+	// number of functions
+	cout << "Enter the number of functions:" << endl;
+	cin >> numOfFunctions;
+	// number of nodes for each function
+	vector<int> listOfNumOfNodes(numOfFunctions);
+	for (int i = 0; i < numOfFunctions; ++i) {
+		cout << "Enter the number of nodes for function #" << i << ":" << endl;
+		cin >> listOfNumOfNodes[i];
+	}
+	// number of param values
+	int numOfParamValues;
+	cout << "Enter the number of param values:" << endl;
+	cin >> numOfParamValues;
+	// value for each param
+	vector<double> listOfNumOfParamValues(numOfParamValues);
+	for (int j = 0; j < numOfParamValues; ++j) {
+		cout << "Enter the value for param value #" << j << ":" << endl;
+		cin >> listOfNumOfParamValues[j];
+	}
 
-void verify_RandomBinomialGraphGenerator_generateGraph (int n, float p, Graph &graph, RandomBinomialGraphGenerator &generator) {
-	graph = generator.generateBinomialGraph(n, p);
-	print_graph(graph);
-}
+	// number of graphs to calculate
+	int numOfGraphs;
+	cout << "Enter the number of graphs to calculate:" << endl;
+	cin >> numOfGraphs;
 
-void make_adjacentList1 (AdjacentList &adjacentList1) {
-	adjacentList1[0].push_back(1);
-	adjacentList1[0].push_back(2);
+	ConnectedComponentsExperiment experiment = ConnectedComponentsExperiment();
 
-	adjacentList1[1].push_back(0);
-	adjacentList1[1].push_back(2);
-
-	adjacentList1[2].push_back(0);
-	adjacentList1[2].push_back(1);
-
-	adjacentList1[3].push_back(4);
-
-	adjacentList1[4].push_back(3);
-
-	adjacentList1[5].push_back(6);
-	adjacentList1[5].push_back(7);
-
-	adjacentList1[6].push_back(5);
-	adjacentList1[6].push_back(8);
-
-	adjacentList1[7].push_back(5);
-	adjacentList1[7].push_back(8);
-
-	adjacentList1[8].push_back(6);
-	adjacentList1[8].push_back(7);
-}
-
-void make_adjacentList2 (AdjacentList &adjacentList2) {
-	adjacentList2[1].push_back(2);
-
-	adjacentList2[2].push_back(1);
-
-	adjacentList2[3].push_back(4);
-	adjacentList2[3].push_back(5);
-
-	adjacentList2[4].push_back(3);
-	adjacentList2[4].push_back(5);
-	adjacentList2[4].push_back(6);
-
-	adjacentList2[5].push_back(3);
-	adjacentList2[5].push_back(4);
-	adjacentList2[5].push_back(6);
-
-	adjacentList2[6].push_back(4);
-	adjacentList2[6].push_back(5);
-
-	adjacentList2[8].push_back(9);
-	adjacentList2[8].push_back(11);
-
-	adjacentList2[9].push_back(8);
-	adjacentList2[9].push_back(10);	
-
-	adjacentList2[10].push_back(9);
-	adjacentList2[10].push_back(11);
-
-	adjacentList2[11].push_back(8);
-	adjacentList2[11].push_back(10);
-}
-
-void make_adjacentList3 (AdjacentList &adjacentList3) {
-	adjacentList3[0].push_back(1);
-	adjacentList3[0].push_back(2);
-
-	adjacentList3[1].push_back(0);
-	adjacentList3[1].push_back(2);
-
-	adjacentList3[2].push_back(0);
-	adjacentList3[2].push_back(1);
-}
-
-void make_adjacentList4 (AdjacentList &adjacentList4) {
-	adjacentList4[0].push_back(1);
-
-	adjacentList4[1].push_back(0);
-}
-
-void make_adjacentList5 (AdjacentList &adjacentList5) {
-	adjacentList5[0].push_back(1);
-
-	adjacentList5[1].push_back(0);
-	adjacentList5[1].push_back(2);
-
-	adjacentList5[2].push_back(1);
-	adjacentList5[2].push_back(3);
-
-	adjacentList5[3].push_back(2);
-	adjacentList5[3].push_back(4);
-
-	adjacentList5[4].push_back(3);
-}
-
-void print_graph (Graph &graph) {
-	AdjacentList adjacentList = graph.getAdjacentList();
-	int numOfNodes = adjacentList.size();
-	for (int i = 0; i < numOfNodes; ++i) {
-		cout << "Node #" << i<< ":";
-		int numOfAdjacents = adjacentList[i].size();
-		for (int j = 0; j < numOfAdjacents; ++j) {
-			cout << adjacentList[i][j] << " ";
-		}
-		cout << endl;
+	if (model == Geometric) {
+		experiment.startExperimentGeometric(listOfNumOfNodes, listOfNumOfParamValues, numOfGraphs);
+	} else if (model == Binomial) {
+		experiment.startExperimentBinomial(listOfNumOfNodes, listOfNumOfParamValues, numOfGraphs);
 	}
 }
 
-void print_connected_components (ConnectedComponents &connectedComponents) {
-	for (int i = 0; i < connectedComponents.size(); ++i) {
-		cout << "Connected component #" << i+1 << ":" << endl;
-		print_component(connectedComponents[i]);
-		cout << endl;
+void generateDefaultNumOfNodes (vector<int> &listOfNumOfNodes) {
+	listOfNumOfNodes = vector<int>(5);
+	int numOfNodes = 20;
+	for (int i = 0; i < 5; ++i) {
+		listOfNumOfNodes[i] = numOfNodes;
+		numOfNodes += 20;
 	}
 }
 
-void print_component (vector<int> &component) {
-	for (int i = 0; i < component.size(); ++i) {
-		cout << component[i] << " ";
+void generateDefaultNumOfParamValues (vector<double> &listOfNumOfParamValues) {
+	listOfNumOfParamValues = vector<double>(19);
+	double numOfParamValue = 0.000;
+	for (int i = 0; i < 19; ++i) {
+		listOfNumOfParamValues[i] = numOfParamValue;
+		numOfParamValue += 0.025;
 	}
 }
