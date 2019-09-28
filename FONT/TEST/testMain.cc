@@ -141,8 +141,8 @@ void run_RandomGeometricGraphGenerator_tests () {
 void run_RandomBinomialGraphGenerator_tests () {
 	// ------------- TEST 10 -------------
 	cout << "START TESTS" << endl;
-	int n = 10;
-	float p = 0.2;
+	int n = 40;
+	float p = 0.02;
 
 	RandomBinomialGraphGenerator generator = RandomBinomialGraphGenerator();
 	Graph graph;
