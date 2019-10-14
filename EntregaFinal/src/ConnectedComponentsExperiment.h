@@ -29,7 +29,7 @@ public:
      *
      * @param listOfNumberOfNodes list of number of nodes to experiment.
      * @param listOfParamValues list of param values (radius).
-     * @param numOfGraphs number of graphs with which to make an average value
+     * @param numOfGraphs number of graphs with which to make an average value.
      */
 	void startExperimentGeometric (vector<int> &listOfNumberOfNodes, vector<double> &listOfParamValues, int numOfGraphs);
 	
