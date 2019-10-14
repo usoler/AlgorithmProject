@@ -2,11 +2,13 @@
  * Created by Luis Oriol Soler Cruz on 21/09/19
  * Modified by Jose Camilo Romero Limones on 23/09/19
  * Modified by Pau Escofet Majoral on 25/09/19
+ * Modified by Luis Oriol Soler Cruz on 30/09/19
  */
 #include <iostream>
 #include "Graph.h"
 #include "RandomGeometricGraphGenerator.h"
 #include "RandomBinomialGraphGenerator.h"
+#include "ConnectivityExperiment.h"
 
 using namespace std;
 
@@ -30,6 +32,7 @@ void verify_RandomBinomialGraphGenerator_generateGraph (int, float, Graph &, Ran
 void run_Graph_tests ();
 void run_RandomGeometricGraphGenerator_tests ();
 void run_RandomBinomialGraphGenerator_tests ();
+void run_ConnectivityExperiment_tests();
 
 int main() {
 	print_menu();
@@ -39,12 +42,15 @@ int main() {
 			run_Graph_tests();
 			run_RandomGeometricGraphGenerator_tests();
 			run_RandomBinomialGraphGenerator_tests();
+			run_ConnectivityExperiment_tests();
 		} else if (option == 1) {
 			run_Graph_tests();
 		} else if (option == 2) {
 			run_RandomGeometricGraphGenerator_tests();
 		} else if (option == 3) {
 			run_RandomBinomialGraphGenerator_tests();
+		} else if (option == 4) {
+			run_ConnectivityExperiment_tests();
 		}
 
 		print_menu();
@@ -61,6 +67,7 @@ void print_menu () {
 	cout << "*   - Graph:                         press 1 *" << endl;
 	cout << "*   - RandomGeometricGraphGenerator: press 2 *" << endl;
 	cout << "*   - RandomBinomialGraphGenerator:  press 3 *" << endl;
+	cout << "*   - ConnectivityExperiment:        press 4 *" << endl;
 	cout << "**********************************************" << endl;
 }
 
@@ -182,6 +189,44 @@ void run_RandomBinomialGraphGenerator_tests () {
 	adjacentList = graph.getAdjacentList();
 	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
 	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+	cout << endl;
+	cout << "*****************************************" << endl;
+	cout << "Random Binomial Graph Tests Finished" << endl;
+	cout << "*****************************************" << endl;
+	cout << endl;
+}
+
+void run_ConnectivityExperiment_tests () {
+	cout << endl;
+	cout << "*****************************************" << endl;
+	cout << "Running Random Binomial Graph Tests" << endl;
+	cout << "*****************************************" << endl;
+	cout << endl;
+	// ------------- TEST 12 -------------
+	int n = 20;
+	float r = 0.3;
+
+	RandomGeometricGraphGenerator generator = RandomGeometricGraphGenerator();
+	Graph graph;
+	int numOfConnectedGraphs = 0;
+	for (int i = 0; i < 1000; ++i) {
+		graph = generator.generateGraph(n, r);
+		if (graph.isConnectedGraph()) {
+			cout << "Graph is connected" << endl;
+			++numOfConnectedGraphs;
+		} else {
+			cout << "NOT" << endl;
+		}
+		cout << "Num of connected graphs: " << numOfConnectedGraphs << endl;
+		cout << "Num of graphs: " << 1000 << endl;
+		cout << "Probability: " << (double)((double)numOfConnectedGraphs / 1000) << endl;
+	}
+	verify_RandomGeometricGraphGenerator_generateGraph(n, r, graph, generator);
+	int m = graph.getNumOfEdges();
+	AdjacentList adjacentList = graph.getAdjacentList();
+	verify_Graph_generateConnectedComponentsDFS_whenValidExecution(n, m, adjacentList);
+	verify_Graph_isConnectedGraph_whenValidExecution(n, m, adjacentList);
+
 	cout << endl;
 	cout << "*****************************************" << endl;
 	cout << "Random Binomial Graph Tests Finished" << endl;
