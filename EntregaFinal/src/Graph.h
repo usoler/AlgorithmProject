@@ -1,5 +1,6 @@
 /**
  * Created by Luis Oriol Soler Cruz on 21/09/19
+ * Modified by Luis Oriol Soler Cruz on 14/10/19
  */
 #ifndef GRAPH_H
 #define GRAPH_H
@@ -20,6 +21,7 @@ private:
 	bool isConnected;
 	AdjacentList adjacentList;
 	ConnectedComponents connectedComponents;
+	int sizeOfLargestConnectedComponent;
 	
 	void isConnectedGraphrec (Visited &visited, int v);
 	void generateConnectedComponentsDFS ();
@@ -31,7 +33,7 @@ public:
 	 *
 	 * @return an empty graph
 	 */
-	Graph ();
+	Graph (); // O(1)
 
 	/**
 	 * Constructs a filled graph
@@ -42,36 +44,46 @@ public:
 	 * 
 	 * @return a filled graph
 	 */
-	Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList);
+	Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList); // O(1)
 
 	/**
 	 * Returns the number of nodes in the graph.
 	 */
-	int getNumOfNodes ();
+	int getNumOfNodes (); // O(1)
 
 	/**
 	 * Returns the number of edges in the graph.
 	 */
-	int getNumOfEdges ();
+	int getNumOfEdges (); // O(1)
 
 	/**
 	 * Returns if the graph is connected.
 	 */
-	bool isConnectedGraph ();
+	bool isConnectedGraph (); // O(|V|+|E|)
 
 	/**
 	 * Returns the adjacent list of the graph.
 	 */
-	AdjacentList getAdjacentList ();
+	AdjacentList getAdjacentList (); // O(1)
 
 	/**
 	 * Returns the number of connected components of the graph.
 	 */
-	int getNumOfConnectedComponents ();
+	int getNumOfConnectedComponents (); // O(|V|+|E|)
 
 	/**
 	 * Returns the connected components of the graph
 	 */
-	ConnectedComponents getConnectedComponents ();
+	ConnectedComponents getConnectedComponents (); // O(|V|+|E|)
+
+	/**
+	 * Returns the largest connected component
+	 */
+	vector<int> getLargestConnectedComponent (); // O(|V|)
+
+	/**
+	 * Returns the size of the largest connected component
+	 */
+	int getSizeOfLargestConnectedComponent (); // O(1)
 };
 #endif

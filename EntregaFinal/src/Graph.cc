@@ -1,5 +1,6 @@
 /**
  * Created by Luis Oriol Soler Cruz on 21/09/19
+ * Modified by Luis Oriol Soler Cruz on 14/10/19
  */
 #include "Graph.h"
 
@@ -9,6 +10,7 @@ Graph::Graph () {
 	this->isChecked = false;
 	this->adjacentList = vector<vector<int> >();
 	this->connectedComponents = vector<vector<int> >();
+	this->sizeOfLargestConnectedComponent = 0;
 }
 
 Graph::Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList) {
@@ -17,6 +19,7 @@ Graph::Graph (int numOfNodes, int numOfEdges, AdjacentList &adjacentList) {
 	this->isChecked = false;
 	this->adjacentList = adjacentList;
 	this->connectedComponents = vector<vector<int> >();
+	this->sizeOfLargestConnectedComponent = 0;
 }
 
 int Graph::getNumOfNodes () {
@@ -107,5 +110,35 @@ void Graph::generateConnectedComponentsDFSrec (vector<bool> &visited, int v) {
 		if (not visited[adjacent]) {
 			generateConnectedComponentsDFSrec(visited, adjacent);
 		}
+	}
+}
+
+vector<int> Graph::getLargestConnectedComponent () {
+	vector<int> largestConnectedComponent = this->connectedComponents[0];
+	int actualSize = largestConnectedComponent.size();
+	int numOfConnectedComponents = this->connectedComponents.size();
+
+	for (int i = 1; i < numOfConnectedComponents; ++i) {
+		vector<int> nextConnectedComponent = this->connectedComponents[i];
+
+		if (actualSize < nextConnectedComponent.size()) {
+			largestConnectedComponent = nextConnectedComponent;
+			actualSize = nextConnectedComponent.size();
+		}
+	}
+
+	this->sizeOfLargestConnectedComponent = actualSize;
+
+	return largestConnectedComponent;
+}
+
+int Graph::getSizeOfLargestConnectedComponent () {
+	if (this->sizeOfLargestConnectedComponent == 0) {
+		if (this->connectedComponents.empty()) {
+			generateConnectedComponentsDFS();
+		}
+		return getLargestConnectedComponent().size();
+	} else {
+		return this->sizeOfLargestConnectedComponent;
 	}
 }
