@@ -18,7 +18,8 @@ void LargestConnectedComponentExperiment::startExperimentGeometric (vector<int> 
 			float param = listOfParamValues[j];
 			double expectedValue;
 			expectedValue = calculateExpectedValue(numberOfNodes, param, numOfGraphs, generator);
-			cout << "Expected value for param " << param << " = " << expectedValue << endl;
+			// cout << "Expected value for param " << param << " = " << expectedValue << endl;
+			cout << param << " = " << expectedValue << endl;
 		}
 		cout << "************************************************" << endl;
 		cout << endl;
@@ -37,7 +38,8 @@ void LargestConnectedComponentExperiment::startExperimentBinomial (vector<int> &
 			float param = listOfParamValues[j];
 			double expectedValue;
 			expectedValue = calculateExpectedValue(numberOfNodes, param, numOfGraphs, generator);
-			cout << "Expected value for param " << param << " = " << expectedValue << endl;
+			// cout << "Expected value for param " << param << " = " << expectedValue << endl;
+			cout << param << " = " << expectedValue << endl;
 		}
 		cout << "************************************************" << endl;
 		cout << endl;

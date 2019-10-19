@@ -16,7 +16,7 @@ enum Model { Binomial, Geometric };
 void printReadMe ();
 void printMenu ();
 void generateDefaultNumOfNodes (vector<int> &listOfNumOfNodes);
-void generateDefaultNumOfParamValues (vector<double> &listOfNumOfParamValues);
+void generateDefaultNumOfParamValues (vector<double> &listOfNumOfParamValues, Model model); //TODO
 void runConnectedComponentsExperimentByDefault (Model model);
 void runConnectedComponentsExperiment (Model model);
 void runConnectivityExperimentByDefault (Model model);
@@ -133,7 +133,7 @@ void runConnectedComponentsExperimentByDefault (Model model) {
 	vector<int> listOfNumOfNodes;
 	generateDefaultNumOfNodes(listOfNumOfNodes);
 	vector<double> listOfNumOfParamValues;
-	generateDefaultNumOfParamValues(listOfNumOfParamValues);
+	generateDefaultNumOfParamValues(listOfNumOfParamValues, model); //TODO
 	int numOfGraphs = 100;
 
 	ConnectedComponentsExperiment experiment = ConnectedComponentsExperiment();
@@ -186,7 +186,7 @@ void runConnectivityExperimentByDefault (Model model) {
 	vector<int> listOfNumOfNodes;
 	generateDefaultNumOfNodes(listOfNumOfNodes);
 	vector<double> listOfNumOfParamValues;
-	generateDefaultNumOfParamValues(listOfNumOfParamValues);
+	generateDefaultNumOfParamValues(listOfNumOfParamValues, model); //TODO
 	int numOfGraphs = 100;
 
 	ConnectivityExperiment experiment = ConnectivityExperiment();
@@ -239,8 +239,8 @@ void runLargestConnectedComponentExperimentByDefault (Model model) {
 	vector<int> listOfNumOfNodes;
 	generateDefaultNumOfNodes(listOfNumOfNodes);
 	vector<double> listOfNumOfParamValues;
-	generateDefaultNumOfParamValues(listOfNumOfParamValues);
-	int numOfGraphs = 100;
+	generateDefaultNumOfParamValues(listOfNumOfParamValues, model); //TODO
+	int numOfGraphs = 100; //TODO
 
 	LargestConnectedComponentExperiment experiment = LargestConnectedComponentExperiment();
 
@@ -290,18 +290,22 @@ void runLargestConnectedComponentExperiment (Model model) {
 
 void generateDefaultNumOfNodes (vector<int> &listOfNumOfNodes) {
 	listOfNumOfNodes = vector<int>(5);
-	int numOfNodes = 20;
+	int numOfNodes = 1000; //TODO
 	for (int i = 0; i < 5; ++i) {
 		listOfNumOfNodes[i] = numOfNodes;
-		numOfNodes += 20;
+		numOfNodes += 250; //TODO
 	}
 }
 
-void generateDefaultNumOfParamValues (vector<double> &listOfNumOfParamValues) {
-	listOfNumOfParamValues = vector<double>(19);
+void generateDefaultNumOfParamValues (vector<double> &listOfNumOfParamValues, Model model) {
+	listOfNumOfParamValues = vector<double>(25);
 	double numOfParamValue = 0.000;
-	for (int i = 0; i < 19; ++i) {
+	for (int i = 0; i < 25; ++i) {
 		listOfNumOfParamValues[i] = numOfParamValue;
-		numOfParamValue += 0.025;
+		if(model == Geometric){
+			numOfParamValue += 0.005; //TODO
+		} else {
+			numOfParamValue += 0.0005; //TOD
+		}
 	}
 }
